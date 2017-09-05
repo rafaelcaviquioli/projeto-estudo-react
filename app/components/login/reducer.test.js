@@ -7,10 +7,11 @@ import MockAdapter from 'axios-mock-adapter';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import localStorage from 'mock-local-storage';
 import TokenService from '../security/token-service';
+import config from '../../services/api/config';
 
 describe('Login reducer', () => {
-    const urlAuth = 'http://172.168.0.200:8000/auth';
-    
+    const urlAuth = config.host + '/auth';
+
     global.window = {};
 
     window.localStorage = global.localStorage;
