@@ -1,10 +1,6 @@
-import React from 'react';
-import jest from 'enzyme';
-
 import emailPasswordToAuthorization from './emailPasswordToAuthorization';
 
 describe('E-mail and password to authorization', () => {
-
     it('Should convert email and password to authorization token base64', () => {
         const email = 'rafaelcitj@gmail.com';
         const password = '123456';
@@ -12,5 +8,4 @@ describe('E-mail and password to authorization', () => {
 
         expect(emailPasswordToAuthorization(email, password)).toEqual(expected);
     });
-
 });

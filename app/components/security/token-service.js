@@ -1,3 +1,5 @@
+import jwt_decode from 'jwt-decode';
+
 export default class TokenService {
     constructor() {
         this.tokenName = 'token';
@@ -14,12 +16,10 @@ export default class TokenService {
     getToken() {
         return localStorage.getItem(this.tokenName);
     }
-
-    getAuthorizationHeader() {
-        return {
-            headers: {
-                'X-Token': this.getToken()
-            }
-        }
+    isNullOfEmpty() {
+        return this.getToken() === '' || this.getToken() === null;
+    }
+    getData() {
+        return jwt_decode(this.getToken());
     }
 }

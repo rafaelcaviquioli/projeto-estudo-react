@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import * as actions from './actions';
 import './style.css';
 
-const LoginForm = props => {
+const LoginForm = (props) => {
     const { handleSubmit, loading, success, failed, requestError } = props;
     return (
         <form className="form-signin" onSubmit={handleSubmit}>
@@ -36,8 +36,10 @@ const LoginForm = props => {
 
             <button
                 className="btn btn-lg btn-primary btn-block"
-                type="submit">
-                {success ? "Autenticado!" : (loading ? "Verificando..." : "Entrar")}
+                type="submit"
+            >
+                {success ? 'Autenticado!' : ''}
+                {loading ? 'Verificando...' : 'Entrar'}
             </button>
         </form>
     );
@@ -53,7 +55,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    onSubmit: values => {
+    onSubmit: (values) => {
         dispatch(actions.login(values.email, values.password));
     }
 });

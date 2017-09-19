@@ -28,7 +28,7 @@ describe('Login reducer', () => {
 
     const composeState = (state = {}) =>
         (initialState = {}) => {
-            return { ...initialState, success: false, token: '' };
+            return { ...initialState, status: 0, token: '' };
         };
     const tokenExpected = '6ger1thr6rt1h65wr1g32df1gh65wrh1rth65w1h';
     const mainReducer = combineReducers({
@@ -59,6 +59,7 @@ describe('Login reducer', () => {
 
         return store.dispatch(actions.login('usuario@email.com', 'senha'))
             .then(() => {
+                
                 const loginState = store.getState().login;
 
                 expect(loginState.token).toEqual(tokenExpected);

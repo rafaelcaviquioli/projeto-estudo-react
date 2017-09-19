@@ -1,13 +1,9 @@
 class Config {
-    constructor(){
-        this.host = "http://172.168.0.200:8000";
+    constructor() {
+        this.host = 'http://172.168.0.200:8000';
     }
     getAuthorizationHeader() {
-        return {
-            headers: {
-                "X-Token": ``,
-            },
-        };
+        return { headers: { 'X-Token': '' } };
     }
 }
 

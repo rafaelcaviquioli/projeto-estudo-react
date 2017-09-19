@@ -1,28 +1,20 @@
+import 'bootstrap/dist/css/bootstrap.css';
+import 'font-awesome/css/font-awesome.min.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/app';
 import { Provider } from 'react-redux';
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-} from 'react-router-dom';
-import Login from './components/login/login';
-import PrivateRoute from './components/security/private-route';
-import PageNotFound from './components/http-errors/page-not-found';
-import store from './store';
+
+import Router from './router';
+import createStore from './createStore';
+import TokenService from './components/security/token-service';
+
+const statusLogin = new TokenService().isNullOfEmpty() ? 0 : 1;
+
+const state = { login: { status: statusLogin } };
+const store = createStore(state);
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router>
-            <div>
-                <Switch>
-                    <PrivateRoute exact path="/" component={App} />
-                    <Route exact path="/login" component={Login} />
-                    <Route component={PageNotFound} />
-                </Switch>
-            </div>
-        </Router>
-    </Provider>
-    , document.getElementById('root')
-);
+        <Router />
+    </Provider>, document.getElementById('root'));

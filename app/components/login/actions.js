@@ -12,18 +12,31 @@ const login = (email, password) => (dispatch) => {
     dispatch({ type: types.LOADING, status: true });
 
     return apiUser.login(authorization)
-        .then(result => {
+        .then((result) => {
             const token = result.data['auth-jwt'];
 
-            dispatch({ type: types.LOGIN, token: token });
+            dispatch({ type: types.LOGIN, token });
+            dispatch({ type: types.LOADING, status: false });
 
-            new TokenService().setToken(token);
+            const tokenService = new TokenService();
+            tokenService.setToken(token);
+            const data = tokenService.getData();
 
-            return result.data;
+
+
+
+            window.location = '/';
         })
-        .catch(error => {
+        .catch((error) => {
+            console.log(error);
+
+            dispatch({ type: types.LOGOUT });
             dispatch({ type: types.LOGIN_FAILED });
             dispatch({ type: types.LOADING, status: false });
         });
 }
-export { login }
+
+const loadUserStoreByToken = (token) => (dispatch) => {
+    
+}
+export { login, loadUserStoreByToken }
