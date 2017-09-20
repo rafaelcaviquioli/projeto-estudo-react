@@ -1,9 +1,21 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import * as loginActions from '../login/actions';
+import TokenService from '../security/token-service';
 
 class PrivateRoute extends React.Component {
 
+    componentWillMount(){
+        if(this.props.stateLogin !== 1){
+
+            const token = new TokenService().getToken();
+
+            if(token !== '' && token !== undefined && token !== null){
+                this.props.loadUserStoreByToken();
+            }
+        }
+    }
     render() {
         const { component: Component, ...otherProps } = this.props;
 
@@ -27,5 +39,10 @@ class PrivateRoute extends React.Component {
 const mapStateToProps = state => ({
     stateLogin: state.login.status
 });
+const mapDispatchToProps = dispatch => ({
+    loadUserStoreByToken: (token) => {
+        dispatch(loginActions.loadUserStoreByToken(token));
+    }
+});
 
-export default connect(mapStateToProps, null)(PrivateRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute);

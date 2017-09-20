@@ -18,6 +18,7 @@ export default class User {
     getUser() {
         const tokenService = new TokenService();
         const url = `${config.host}/portal/colaborador/dados-colaborador`;
+
         const headers = {
             'headers': {
                 'X-Token': tokenService.getToken()

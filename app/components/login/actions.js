@@ -3,6 +3,18 @@ import ApiUser from '../../services/api/user';
 import * as types from './actions-types';
 import TokenService from '../security/token-service';
 
+const authenticationSuccessful = (token) => (dispatch) => {
+    new TokenService().setToken(token);
+
+    const apiUser = new ApiUser();
+
+    return apiUser.getUser().then((result) => {
+        dispatch({ type: types.LOGIN, token, user: result });
+
+        return result;
+    });
+}
+
 const login = (email, password) => (dispatch) => {
     dispatch({ type: types.LOGOUT });
 
@@ -15,17 +27,11 @@ const login = (email, password) => (dispatch) => {
         .then((result) => {
             const token = result.data['auth-jwt'];
 
-            dispatch({ type: types.LOGIN, token });
-            dispatch({ type: types.LOADING, status: false });
+            dispatch(authenticationSuccessful(token)).then((user) => {
+                dispatch({ type: types.LOADING, status: false });
 
-            const tokenService = new TokenService();
-            tokenService.setToken(token);
-            const data = tokenService.getData();
-
-
-
-
-            window.location = '/';
+                window.location = '/';
+            });
         })
         .catch((error) => {
             console.log(error);
@@ -35,8 +41,11 @@ const login = (email, password) => (dispatch) => {
             dispatch({ type: types.LOADING, status: false });
         });
 }
-
 const loadUserStoreByToken = (token) => (dispatch) => {
-    
+    dispatch(authenticationSuccessful(token)).then((user) => {
+        dispatch({ type: types.LOADING, status: false });
+
+        window.location = '/';
+    });
 }
-export { login, loadUserStoreByToken }
+export { login, authenticationSuccessful, loadUserStoreByToken }

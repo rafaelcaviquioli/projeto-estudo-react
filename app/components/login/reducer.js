@@ -3,7 +3,7 @@ import * as types from './actions-types';
 export default function reducer(state, action) {
     switch (action.type) {
         case types.LOGIN:
-            return { ...state, status: 1, token: action.token };
+            return { ...state, status: 1, token: action.token, user: action.user };
 
         case types.LOGOUT:
             return { ...state, status: 0, token: null };

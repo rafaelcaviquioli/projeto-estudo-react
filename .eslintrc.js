@@ -1,5 +1,4 @@
 module.exports = {
-    "extends": "airbnb",
     "plugins": ["jest"],
     "rules": {
         // windows linebreaks when not in production environment

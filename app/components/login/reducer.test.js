@@ -49,7 +49,20 @@ describe('Login reducer', () => {
                 expect(loginState.success).toEqual(true);
             });
     });
+    it('Should register user at login store when login successful', () => {
+        mock.onGet(urlAuth).reply(200, {
+            'auth-jwt': tokenExpected
+        });
 
+        const store = createStore(mainReducer, applyMiddleware(thunk));
+
+        return store.dispatch(actions.login('usuario@email.com', 'senha'))
+            .then(() => {
+                const loginState = store.getState().login;
+
+                expect(typeof loginState.user).toBe('object');
+            });
+    });
     it('Should register token equals token expected at store when login successful', () => {
         mock.onGet(urlAuth).reply(200, {
             'auth-jwt': tokenExpected
